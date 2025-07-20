@@ -1,0 +1,46 @@
+@import 'tailwindcss';
+
+body {
+  background: #1E1E1E;
+  color: white
+}
+
+.audio::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  background: #10b981;
+  border: 2px solid white;
+  border-radius: 9999px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  margin-top: -6px;
+  position: relative;
+  z-index: 2;
+}
+
+::-webkit-slider-runnable-track {
+  height: 11px;
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.sound::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #10b981;
+  border: 2px solid white;
+  border-radius: 9999px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  margin-top: -6px;
+  position: relative;
+  z-index: 2;
+}
+
+.sound::-webkit-slider-runnable-track {
+  height: 5px;
+  background: transparent;
+  border-radius: 9999px;
+}
