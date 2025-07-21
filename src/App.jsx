@@ -5,25 +5,56 @@ import SideBar from "./components/SideBar";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { songs } from "./assets/songs";
+import Favourites from "./components/Favourites";
+import { Link } from "react-router-dom";
+import Register from "./components/Register";
+import Login from "./components/LogIn";
+import { Navigate } from "react-router-dom";
+import Charts from "./components/Charts";
 
 function App() {
   const [songNumber, setSongNumber] = useState(0);
   const [artist, setArtist] = useState()
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [song, setSong] = useState(() => {
+    const stored = localStorage.getItem("songs");
+    return stored ? JSON.parse(stored) : songs;
+  });
   const filteredSongs = songs.filter(song =>
     song.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     song.artist.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
   return (
-    <div className='flex'>
+    <div className='flex flex-col'>
+      <div className='flex items-center gap-[5vw] ml-[19vw] mt-[1vw]'>
+          <input type="search" placeholder='Search...' className='bg-[#00FF90] placeholder:text-[#326d2d] text-[1.4vw] text-black font-semibold px-[1vw] rounded-xl py-[0.5vw]' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+          <Link to={'/chart'} className='font-bold text-[1.6vw] text-[#AAAAAA] cursor-pointer'>Charts</Link>
+          <Link to={'/favourites'} className='font-bold text-[1.6vw] text-[#AAAAAA]'>Favourites</Link>
+      </div>
+
+      {searchTerm && <div className="grid gap-[0.5vw] absolute w-[19vw] left-[19vw] top-[5vw]">
+        {filteredSongs.map((song, i) => (
+            <div key={i} className="bg-[#2d2d2d] p-[0.5vw] rounded shadow flex items-center gap-[0.5vw]">
+                <img src={song.cover} alt={song.title} className="w-[3vw] h-[3vw] object-cover rounded" />
+                <h2 className="font-bold text-[1vw]">{song.title}</h2>
+                <p className="text-sm text-gray-600">{song.artist}</p>
+            </div>
+        ))}
+      </div>}
+
       <SideBar />
       <MusicBar songNumber={songNumber} setSongNumber={setSongNumber} />
 
       <Routes>
-        <Route path="/" element={<Center setSongNumber={setSongNumber} setArtist={setArtist} searchTerm={searchTerm} setSearchTerm={setSearchTerm} filteredSongs={filteredSongs}/>}/>
+        <Route path="/" element={<Navigate to="/register" />} /> {/* საიტის გახსნისას გადამისამართება register-ზე */}
+        <Route path="/center" element={<Center setSongNumber={setSongNumber} setArtist={setArtist} setSong={setSong} song={song}/>}/>
         <Route path="/artist" element={<Artist artist={artist}/>}/>
+        <Route path="/favourites" element={<Favourites/>}/>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/chart" element={<Charts song={song} />} />
       </Routes>
     </div>
   );

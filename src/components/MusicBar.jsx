@@ -20,7 +20,7 @@ const MusicBar = ({songNumber, setSongNumber}) => {
 
   const song = songs[songNumber]; 
 
-  useEffect(()=> {if (audioRef) audioRef.current.play()}, [song])
+  useEffect(()=> {if (audioRef) audioRef.current.play();}, [song])
 
   const togglePlay = () => {
     if (isPlaying) {

@@ -22,12 +22,7 @@ const Artist = ({ artist }) => {
   const info = artistInfo[artist]
 
   return (
-    <div className='ml-[17vw] mr-[20vw] pt-[1.5vw] p-[2vw]'>
-      <div className='flex items-center gap-[5vw] mb-[2vw]'>
-        <input type="search" placeholder='Search...' className='bg-[#00FF90] placeholder:text-[#326d2d] text-[1.4vw] text-black font-semibold px-[1vw] rounded-xl py-[0.5vw]' />
-        <h2 className='font-bold text-[1.6vw] text-[#AAAAAA] cursor-pointer'>Charts</h2>
-      </div>
-      
+    <div className='ml-[17vw] mr-[20vw] pt-[0vw] p-[2vw]'>
       <div className='my-[4vw]'>
         <img src={info.image} alt={info.name} className='w-[10vw] h-[10vw] object-cover rounded-full shadow-lg float-left mr-[1.5vw] mb-[1vw]'/>
         <h1 className='text-[2vw] font-bold mb-[0.5vw]'>{info.name}</h1>

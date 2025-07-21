@@ -1,26 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { songs } from '../assets/songs'
 import { Link } from 'react-router-dom';
+import { FaStar } from 'react-icons/fa';
 
 
-const Center = ({setSongNumber, setArtist, setSearchTerm, searchTerm, filteredSongs}) => {
+const Center = ({setSongNumber, setArtist, setSong, song}) => {
+    const [favourite, setFavourite] = useState(() => {
+        const saved = localStorage.getItem('favourite');
+        return saved ? JSON.parse(saved) : [];
+    });
+
   return (
-    <div className='ml-[17vw] mr-[20vw] pt-[1.5vw] p-[2vw]'>
-        <div className='flex items-center gap-[5vw]'>
-            <input type="search" placeholder='Search...' className='bg-[#00FF90] placeholder:text-[#326d2d] text-[1.4vw] text-black font-semibold px-[1vw] rounded-xl py-[0.5vw]' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-            <h2 className='font-bold text-[1.6vw] text-[#AAAAAA] cursor-pointer'>Charts</h2>
-        </div>
-
-        {searchTerm && <div className="grid gap-[0.5vw] absolute translate-y-[0.5vw] w-[19vw]">
-            {filteredSongs.map((song, i) => (
-                <div key={i} className="bg-[#2d2d2d] p-[0.5vw] rounded shadow flex items-center gap-[0.5vw]">
-                    <img src={song.cover} alt={song.title} className="w-[3vw] h-[3vw] object-cover rounded" />
-                    <h2 className="font-bold text-[1vw]">{song.title}</h2>
-                    <p className="text-sm text-gray-600">{song.artist}</p>
-                </div>
-            ))}
-        </div>}
-
+    <div className='ml-[17vw] mr-[20vw] pt-[0vw] p-[2vw]'>
         <a href="https://www.temu.com/" className='overflow-clip flex items-center h-[25vw] rounded-2xl my-[2vw]' target='blank'><img src="https://www.nextsmartship.com/wp-content/uploads/2024/06/a-comprehensive-guide-to-temu-shipping-time.jpg" alt="" className='w-fill'/></a>
         
         <h2 className='text-[2vw] font-semibold mb-[1vw]'>Artists</h2>
@@ -49,10 +40,34 @@ const Center = ({setSongNumber, setArtist, setSearchTerm, searchTerm, filteredSo
         <h2 className='text-[2vw] font-semibold mt-[2vw] mb-[1vw]'>Songs</h2>
 
         <div className='flex flex-wrap gap-[2vw]'>
-            {songs.map((e, id) => <div id={id} key={id}>
-                <img src={e.cover} className='w-[10vw] h-[10vw] object-cover rounded-xl shadow-xl shadow-black cursor-pointer mb-[0.5vw]' onClick={() => {setSongNumber(id)}}></img>
+            {song.map((e, id) => <div id={id} key={id}>
+                <img src={e.cover} className='w-[10vw] h-[10vw] object-cover rounded-xl shadow-xl shadow-black cursor-pointer mb-[0.5vw]' onClick={() => {
+                    setSongNumber(e.id - 1);
+
+                    const updatedSongs = song.map((songItem) =>
+                    songItem.id === e.id ? { ...songItem, count: songItem.count + 1 } : songItem
+                    );
+
+                    setSong(updatedSongs);
+                    localStorage.setItem('songs', JSON.stringify(updatedSongs));
+                }
+            }/>
                 <p className='text-[1.04vw] font-bold'>{e.title}</p>
                 <p className='text-[0.8vw]'>{e.artist}</p>
+                <FaStar className={`float-right -translate-y-[1vw] cursor-pointer ${favourite.some(song => song.title === e.title) ? 'text-yellow-400' : 'text-[#313131]'} text-[1.2vw] origin-center transition-all duration-200`}
+                    onClick={() => {
+                        setFavourite(prev => {
+                            const isFav = prev.some(song => song.title === e.title);
+
+                            const updated = isFav
+                            ? prev.filter(song => song.title !== e.title)
+                            : [...prev, e];
+
+                            localStorage.setItem('favourite', JSON.stringify(updated));
+                            return updated;
+                        });
+                    }}
+                />
             </div>)}
         </div>
     </div>
