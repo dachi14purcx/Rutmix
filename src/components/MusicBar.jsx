@@ -20,7 +20,7 @@ const MusicBar = ({songNumber, setSongNumber}) => {
 
   const song = songs[songNumber]; 
 
-  useEffect(()=> {if (audioRef) audioRef.current.play();}, [song])
+  useEffect(()=> {if (audioRef) audioRef.current.play(); setIsPlaying(true)}, [song])
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -51,14 +51,14 @@ const MusicBar = ({songNumber, setSongNumber}) => {
   };
 
   return (
-    <div className="w-[20vw] h-[100vh] fixed right-0 bg-[#2d2d2d] flex flex-col justify-center items-center p-[1vw]">
-      <img src={song.cover} alt="cover" className="w-full rounded-xl shadow" />
-      <h2 className="text-[1.6vw] font-bold text-center mt-[1vw]">{song.title}</h2>
-      <p className="text-[1.2vw] text-gray-400">{song.artist}</p>
+    <div className="w-[20vw] h-[98.2vh] fixed right-0 bg-[#2d2d2d] flex flex-col justify-center items-center p-[1vw] glassmorph rounded-[16px]">
+      <img src={song.cover} alt="cover" className={`w-full rounded-full shadow ${isPlaying && 'spin'}`} />
+      <h2 className="text-[2vw] font-bold text-center mt-[2vw]">{song.title}</h2>
+      <p className="text-[1.5vw] text-gray-400 mb-[2vw]">{song.artist}</p>
 
       <audio ref={audioRef} src={song.embedUrl} onTimeUpdate={handleTimeUpdate} loop={loop} onEnded={() => setSongNumber(prev => prev +1)}/>
 
-      <div className='flex flex-col items-center text-[1.5vw] text-white'>
+      <div className='flex flex-col items-center text-[1.7vw] text-white'>
         <input type="range" value={progress} onChange={handleSeek} className="w-[18vw] m-[1vw] appearance-none rounded-lg audio" style={{ background: `linear-gradient(to right, #00FF90 ${progress}%, #444 ${progress}%)` }}/>
 
         
@@ -66,7 +66,7 @@ const MusicBar = ({songNumber, setSongNumber}) => {
         <div className='flex w-[18vw] justify-between items-center'>
           <button onClick={() => {audioRef.current.currentTime = 0; setProgress(0)}} className='cursor-pointer hover:text-[#00FF90]'> <RiResetRightLine /> </button>
 
-          <div className='flex text-[1.7vw] text-[#00FF90] my-[1vw]'>
+          <div className='flex text-[1.9vw] text-[#00FF90] my-[1vw]'>
             <button onClick={() => {if (songNumber == 0) setSongNumber(24); else setSongNumber(prev => prev + 1)}} className='cursor-pointer'><IoPlayBack/></button>
             <button onClick={togglePlay} className="mx-[0.8vw] text-white cursor-pointer"> {isPlaying ? <FaPause/>: <FaPlay/>} </button>
             <button><IoPlayForward onClick={() =>{if (songNumber == 24) setSongNumber(0); else setSongNumber(prev => prev + 1)}} className='cursor-pointer'/></button>

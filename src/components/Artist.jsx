@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { songs } from '../assets/songs'
 import { artistInfo } from '../assets/artistsInfo'
 
-const Artist = ({ artist }) => {
+const Artist = ({ artist, setSongNumber }) => {
   const [song, setSong] = useState([])
 
   useEffect(() => {
@@ -23,23 +23,20 @@ const Artist = ({ artist }) => {
 
   return (
     <div className='ml-[17vw] mr-[20vw] pt-[0vw] p-[2vw]'>
-      <div className='my-[4vw]'>
-        <img src={info.image} alt={info.name} className='w-[10vw] h-[10vw] object-cover rounded-full shadow-lg float-left mr-[1.5vw] mb-[1vw]'/>
-        <h1 className='text-[2vw] font-bold mb-[0.5vw]'>{info.name}</h1>
-        <p className='text-[1.05vw]'> {info.description} </p>
+      <div className='mt-[4vw] mb-[2.1vw]'>
+        <img src={info.image} alt={info.name} className='w-[12vw] h-[12vw] object-cover rounded-full shadow-lg float-left m-[1vw]'/>
+        <h1 className='text-[2.5vw] font-bold mb-[0.5vw] translate-x-[1.5vw]'>{info.name}</h1>
+        <p className='text-[1.05vw] leading-relaxed text-neutral-300 text-center'>{info.description}</p>
       </div>
 
       <h2 className='text-[1.6vw] font-semibold mb-[1vw]'>Songs:</h2>
-      <div className='flex flex-wrap gap-[2vw]'>
+
+      <div className='flex flex-wrap gap-x-[2vw] gap-y-[2.5vw]'>
         {song.map((e, i) => (
-        <div key={i}>
-            <img
-              src={e.cover}
-              className='w-[10vw] h-[10vw] object-cover rounded-xl shadow-xl shadow-black cursor-pointer mb-[0.5vw]'
-              alt={e.title}
-            />
-            <p className='text-[1.04vw] font-bold'>{e.title}</p>
-            <p className='text-[0.8vw]'>{e.artist}</p>
+          <div key={i} className='cursor-pointer group' onClick={() => setSongNumber(e.id - 1)}>
+            <img src={e.cover} alt={e.title} className='w-[10vw] h-[10vw] object-cover rounded-xl shadow-xl shadow-black  hover:scale-105 hover:ring-2 hover:ring-green-300 transition duration-300'/>
+            <p className='text-[1.04vw] font-bold mt-[0.3vw]'>{e.title}</p>
+            <p className='text-[0.8vw] text-neutral-400'>{e.artist}</p>
           </div>
         ))}
       </div>

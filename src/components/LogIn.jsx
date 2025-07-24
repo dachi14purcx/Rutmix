@@ -23,39 +23,41 @@ export default function Login() {
     );
 
     if (user) {
-      alert('ავტორიზაცია წარმატებით შესრულდა!');
+      alert('Successfully Autorized');
       navigate('/center'); 
     } else {
-      alert('მომხმარებელი ან პაროლი არასწორია!');
+      alert('Username or Password is wrong');
     }
   };
 
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <h2>ავტორიზაცია</h2>
-      <div>
-        <label htmlFor="username">მომხმარებლის სახელი</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={form.username}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="password">პაროლი</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <button type="submit">შესვლა</button>
-    </form>
+    <div className='flex w-screen h-screen absolute items-center cursor-not-allowed glass-container'>
+      <form className="form-container" onSubmit={handleSubmit}>
+        <h2>Autorisatoion</h2>
+        <div>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={form.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit">Log in</button>
+      </form>
+    </div>
   );
 }
